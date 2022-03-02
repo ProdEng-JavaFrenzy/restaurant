@@ -5,7 +5,7 @@ IMAGE_VERSION=latest
 default: build
 
 clean:
-	rm -rf build
+	[ -d ./build ] && rm -r build || echo "No build directory to clean"
 
 build: clean
 	# A separate image for build allows the process to avoid dependencies with the build machine.

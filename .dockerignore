@@ -22,7 +22,3 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 README.md
-**/bin
-**/build
-**/.gradle
-**/.github
