@@ -7,10 +7,7 @@ import com.javafrenzy.restaurant.model.Reservation;
 import com.javafrenzy.restaurant.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -25,16 +22,27 @@ public class ReservationController {
         return reservationService.getAllReservations();
     }
 
-    @GetMapping("/checkReservation/{identifier}")
+    @GetMapping("/checkReservation/{name}")
     @ResponseBody
-    public Reservation checkReservation(@PathVariable String identifier) {
-        return reservationService.checkReservation(identifier);
+    public Reservation checkReservation(@PathVariable String name) {
+        return reservationService.checkReservation(name);
     }
 
-    @DeleteMapping("/reservation/{identifier}")
+    @DeleteMapping("/deleteReservation/{name}")
     @ResponseBody
-    public Reservation deleteUser(@PathVariable String identifier) {
-        return reservationService.deleteReservation(identifier);
+    public Reservation deleteReservation(@PathVariable String name) {
+        return reservationService.deleteReservation(name);
     }
 
+    @PostMapping("/addReservation")
+    @ResponseBody
+    public Reservation addReservation(@RequestBody Reservation reservation) {
+        return reservationService.addReservation(reservation);
+    }
+
+    @PutMapping("/updateReservation")
+    @ResponseBody
+    public Reservation updateReservation(@RequestBody Reservation reservation){
+        return reservationService.updateReservation((reservation));
+    }
 }
