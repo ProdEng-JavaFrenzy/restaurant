@@ -1,9 +1,14 @@
 package com.javafrenzy.restaurant.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.javafrenzy.restaurant.exception.TableAlreadyAddedException;
+import com.javafrenzy.restaurant.exception.TableNotFoundException;
 
 public class Reservation {
     @Id
@@ -12,6 +17,9 @@ public class Reservation {
     private LocalDateTime date;
     private String name;
     private int capacity;
+
+    @DBRef
+    private List<Table> tables = new ArrayList<>();
 
     public Reservation(String identifier, LocalDateTime date, String name, int capacity) {
 
@@ -51,6 +59,25 @@ public class Reservation {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public List<Table> getTables() {
+        return tables;
+    }
+
+    public boolean addTable(Table table) {
+        if (tables.stream().anyMatch(t -> t.getId().equals(table.getId()))) {
+            throw new TableAlreadyAddedException(table.getId());
+        }
+        return tables.add(table);
+    }
+
+    public boolean removeTableById(String tableId) {
+        Table table = tables.stream()
+                .filter(t -> t.getId().equals(tableId))
+                .findFirst()
+                .orElseThrow(() -> new TableNotFoundException(tableId));
+        return tables.remove(table);
     }
 
     @Override

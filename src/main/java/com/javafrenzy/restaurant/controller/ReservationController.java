@@ -1,14 +1,12 @@
 package com.javafrenzy.restaurant.controller;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.javafrenzy.restaurant.model.Reservation;
 import com.javafrenzy.restaurant.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 
 @Controller
 public class ReservationController {
@@ -42,7 +40,19 @@ public class ReservationController {
 
     @PutMapping("/updateReservation")
     @ResponseBody
-    public Reservation updateReservation(@RequestBody Reservation reservation){
+    public Reservation updateReservation(@RequestBody Reservation reservation) {
         return reservationService.updateReservation(reservation);
+    }
+
+    @PostMapping("/reservations/{reservationId}/tables/{tableId}")
+    @ResponseBody
+    public void addTableToReservation(@PathVariable String reservationId, @PathVariable String tableId) {
+        reservationService.addTableToReservation(reservationId, tableId);
+    }
+
+    @DeleteMapping("/reservations/{reservationId}/tables/{tableId}")
+    @ResponseBody
+    public void deleteTableFromReservation(@PathVariable String reservationId, @PathVariable String tableId) {
+        reservationService.deleteTableFromReservation(reservationId, tableId);
     }
 }

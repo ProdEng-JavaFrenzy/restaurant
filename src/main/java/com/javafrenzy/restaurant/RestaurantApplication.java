@@ -6,8 +6,6 @@ import com.javafrenzy.restaurant.utils.GenerateIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -17,6 +15,7 @@ public class RestaurantApplication {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
     @Autowired
     private GenerateIdentifier generateIdentifier;
 
@@ -29,9 +28,7 @@ public class RestaurantApplication {
 
         String identifier = generateIdentifier.getIdentifier();
         reservationRepository.deleteAll();
-        reservationRepository.save(new Reservation(identifier,LocalDateTime.of(2022, 8, 1, 9, 30),"Tudor",5));
-        reservationRepository.save(new Reservation("TESTTES",LocalDateTime.of(2022, 8, 1, 9, 30),"test",0));
-
+        reservationRepository.save(new Reservation(identifier, LocalDateTime.of(2022, 8, 1, 9, 30), "Tudor", 5));
+        reservationRepository.save(new Reservation("TESTTES", LocalDateTime.of(2022, 8, 1, 9, 30), "test", 0));
     }
-
 }
