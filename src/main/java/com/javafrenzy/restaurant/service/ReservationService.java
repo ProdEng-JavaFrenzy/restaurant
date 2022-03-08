@@ -62,18 +62,18 @@ public class ReservationService {
                 .orElseThrow(() -> new ReservationNotFoundException(reservation.getName()));
     }
 
-    public void addTableToReservation(String reservationId, String tableId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new ReservationNotFoundException(reservationId));
+    public void addTableToReservation(String identifier, String tableId) {
+        Reservation reservation = reservationRepository.findByIdentifier(identifier)
+                .orElseThrow(() -> new ReservationNotFoundException(identifier));
         Table table = tableRepository.findById(tableId).orElseThrow(() -> new TableNotFoundException(tableId));
 
         reservation.addTable(table);
         reservationRepository.save(reservation);
     }
 
-    public void deleteTableFromReservation(String reservationId, String tableId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new ReservationNotFoundException(reservationId));
+    public void deleteTableFromReservation(String identifier, String tableId) {
+        Reservation reservation = reservationRepository.findByIdentifier(identifier)
+                .orElseThrow(() -> new ReservationNotFoundException(identifier));
         tableRepository.findById(tableId).orElseThrow(() -> new TableNotFoundException(tableId));
 
         reservation.removeTableById(tableId);

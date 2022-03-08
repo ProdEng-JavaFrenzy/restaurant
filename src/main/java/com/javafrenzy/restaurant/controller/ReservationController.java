@@ -44,15 +44,15 @@ public class ReservationController {
         return reservationService.updateReservation(reservation);
     }
 
-    @PostMapping("/reservations/{reservationId}/tables/{tableId}")
+    @PostMapping("/reservations/{identifier}/tables/{tableId}")
     @ResponseBody
-    public void addTableToReservation(@PathVariable String reservationId, @PathVariable String tableId) {
-        reservationService.addTableToReservation(reservationId, tableId);
+    public void addTableToReservation(@PathVariable String identifier, @PathVariable String tableId) {
+        reservationService.addTableToReservation(identifier, tableId);
     }
 
-    @DeleteMapping("/reservations/{reservationId}/tables/{tableId}")
+    @DeleteMapping("/reservations/{identifier}/tables/{tableId}")
     @ResponseBody
-    public void deleteTableFromReservation(@PathVariable String reservationId, @PathVariable String tableId) {
-        reservationService.deleteTableFromReservation(reservationId, tableId);
+    public void deleteTableFromReservation(@PathVariable String identifier, @PathVariable String tableId) {
+        reservationService.deleteTableFromReservation(identifier, tableId);
     }
 }
