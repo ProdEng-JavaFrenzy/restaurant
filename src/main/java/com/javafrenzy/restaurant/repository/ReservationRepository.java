@@ -16,4 +16,6 @@ import org.springframework.stereotype.Repository;
 public interface ReservationRepository extends MongoRepository<Reservation, String> {
     Optional<Reservation> findByIdentifier(String identifier);
     Optional<Reservation> deleteByIdentifier(String identifier);
+    Optional<Reservation> deleteByName(String name);
+    Optional<Reservation> findByName(String name);
 }
