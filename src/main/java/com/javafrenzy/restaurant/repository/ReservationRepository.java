@@ -1,6 +1,5 @@
 package com.javafrenzy.restaurant.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.javafrenzy.restaurant.model.Reservation;
