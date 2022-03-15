@@ -2,6 +2,7 @@ package com.javafrenzy.restaurant.service;
 
 import com.javafrenzy.restaurant.exception.ReservationAlreadyAddedException;
 import com.javafrenzy.restaurant.exception.ReservationNotFoundException;
+import com.javafrenzy.restaurant.exception.TableAlreadyAddedException;
 import com.javafrenzy.restaurant.exception.TableNotFoundException;
 import com.javafrenzy.restaurant.model.Reservation;
 import com.javafrenzy.restaurant.model.Table;
@@ -67,7 +68,7 @@ public class ReservationService {
                 .orElseThrow(() -> new ReservationNotFoundException(identifier));
         Table table = tableRepository.findById(tableId).orElseThrow(() -> new TableNotFoundException(tableId));
 
-        reservation.addTable(table);
+        addTableToReservation(table, reservation);
         reservationRepository.save(reservation);
     }
 
@@ -76,7 +77,22 @@ public class ReservationService {
                 .orElseThrow(() -> new ReservationNotFoundException(identifier));
         tableRepository.findById(tableId).orElseThrow(() -> new TableNotFoundException(tableId));
 
-        reservation.removeTableById(tableId);
+        deleteTableFromReservation(tableId, reservation);
         reservationRepository.save(reservation);
+    }
+
+    private static void addTableToReservation(Table table, Reservation reservation) {
+        if (reservation.getTables().stream().anyMatch(t -> t.getId().equals(table.getId()))) {
+            throw new TableAlreadyAddedException(table.getId());
+        }
+        reservation.getTables().add(table);
+    }
+
+    private static void deleteTableFromReservation(String tableId, Reservation reservation) {
+        Table table = reservation.getTables().stream()
+                .filter(t -> t.getId().equals(tableId))
+                .findFirst()
+                .orElseThrow(() -> new TableNotFoundException(tableId));
+        reservation.getTables().remove(table);
     }
 }
