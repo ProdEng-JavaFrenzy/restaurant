@@ -30,6 +30,8 @@ public class ReservationService {
     }
 
     public Reservation checkReservation(String name) {
+        if(name==null)
+            throw new ReservationNotFoundException(null);
         return reservationRepository.findByName(name).orElseThrow(
                 () -> new ReservationNotFoundException(name));
     }
@@ -40,6 +42,8 @@ public class ReservationService {
     }
 
     public Reservation addReservation(Reservation reservation) {
+        if(reservation.getName()==null)
+            throw new ReservationNotFoundException(null);
         reservationRepository.findByName(reservation.getName()).ifPresent(s -> {
             throw new ReservationAlreadyAddedException(reservation.getName());
         });
@@ -50,6 +54,8 @@ public class ReservationService {
     }
 
     public Reservation updateReservation(Reservation reservation) {
+        if(reservation.getName()==null)
+            throw new ReservationNotFoundException(null);
         String identifier = generateIdentifier.getIdentifier();
         return reservationRepository.findByName(reservation.getName())
                 .map(updateReservation -> {
