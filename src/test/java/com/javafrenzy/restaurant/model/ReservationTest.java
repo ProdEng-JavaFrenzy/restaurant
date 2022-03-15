@@ -81,25 +81,5 @@ class ReservationTest {
         myReservation.setCapacity(3);
         verify(reservation).setCapacity(3);
     }
-
-    @Test
-    void test_AddTable(){
-        String time = "2022-09-10T10:30:00";
-        LocalDateTime resTime = LocalDateTime.parse(time);
-        Reservation myReservation = new Reservation("1234", resTime, "Alex", 5);
-        Table myTable = new Table((short)6, (short)1);
-        Assertions.assertTrue(myReservation.addTable(myTable));
-    }
-
-
-    @Test
-    void test_DeleteTable(){
-        String time = "2022-09-10T10:30:00";
-        LocalDateTime resTime = LocalDateTime.parse(time);
-        Reservation myReservation = new Reservation("1234", resTime, "Alex", 5);
-        Table myTable = new Table((short)6, (short)1);
-        myTable.setId("1");
-        myReservation.addTable(myTable);
-        Assertions.assertTrue(myReservation.removeTableById("1"));
-    }
+    
 }
