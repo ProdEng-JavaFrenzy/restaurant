@@ -4,6 +4,9 @@ public class TableRequestDto {
     private short capacity;
     private short floor;
 
+    public TableRequestDto() {
+    }
+
     public TableRequestDto(short capacity, short floor) {
         this.capacity = capacity;
         this.floor = floor;

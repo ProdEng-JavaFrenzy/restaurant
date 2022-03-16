@@ -7,9 +7,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javafrenzy.restaurant.exception.TableAlreadyAddedException;
-import com.javafrenzy.restaurant.exception.TableNotFoundException;
-
 public class Reservation {
     @Id
     private String id;
@@ -63,21 +60,6 @@ public class Reservation {
 
     public List<Table> getTables() {
         return tables;
-    }
-
-    public boolean addTable(Table table) {
-        if (tables.stream().anyMatch(t -> t.getId().equals(table.getId()))) {
-            throw new TableAlreadyAddedException(table.getId());
-        }
-        return tables.add(table);
-    }
-
-    public boolean removeTableById(String tableId) {
-        Table table = tables.stream()
-                .filter(t -> t.getId().equals(tableId))
-                .findFirst()
-                .orElseThrow(() -> new TableNotFoundException(tableId));
-        return tables.remove(table);
     }
 
     @Override
