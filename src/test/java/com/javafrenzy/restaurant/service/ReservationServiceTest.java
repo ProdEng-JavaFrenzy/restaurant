@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.http.MediaType;
 
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,9 +36,9 @@ public class ReservationServiceTest {
 
     @Mock
     ReservationRepository reservationRepository;
-
+    @Mock
+    GenerateIdentifier generateIdentifier;
     @InjectMocks
-    @Autowired
     ReservationService reservationService = new ReservationService();
 
 
@@ -96,7 +97,11 @@ public class ReservationServiceTest {
         reservation.setDate(date);
 
 
-        when(reservationRepository.findByName(name)).thenReturn(Optional.of(reservation));
+        when(reservationRepository.findByName(name)).thenReturn(Optional.empty());
+        when(generateIdentifier.getIdentifier()).thenReturn("TESTTES");
+        when(reservationRepository.save(any())).thenReturn(reservation);
+
+
         Reservation reservation1 = reservationService.addReservation(reservation);
         Assertions.assertEquals("java", reservation1.getName());
         Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30),reservation1.getDate());
@@ -153,10 +158,15 @@ public class ReservationServiceTest {
 
 
         when(reservationRepository.findByName(name)).thenReturn(Optional.of(reservation));
+        when(generateIdentifier.getIdentifier()).thenReturn("TESTTES");
+        when(reservationRepository.save(any())).thenReturn(reservation);
+
+
         Reservation reservation1 = reservationService.updateReservation(reservation);
         Assertions.assertEquals("test", reservation1.getName());
         Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30),reservation1.getDate());
         Assertions.assertEquals(0, reservation1.getCapacity());
+        verify(generateIdentifier).getIdentifier();
 
     }
 
