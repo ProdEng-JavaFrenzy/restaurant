@@ -25,7 +25,9 @@ public class Reservation {
         this.name = name;
         this.capacity = capacity;
     }
+    public Reservation(){
 
+    }
     public String getIdentifier() {
         return identifier;
     }
