@@ -2,84 +2,123 @@ package com.javafrenzy.restaurant.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.mockito.Mockito.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 @SpringBootTest
 class ReservationTest {
-    @Mock
-    Reservation reservation = null;
 
     @Test
     void test_GetIdentifier(){
-        String time = "2022-09-10T10:30:00";
-        LocalDateTime resTime = LocalDateTime.parse(time);
-        Reservation myReservation = new Reservation("1234", resTime, "Alex", 5);
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
+
+        //Assert
         Assertions.assertSame("1234", myReservation.getIdentifier());
     }
 
 
     @Test
     void test_SetIdentifier(){
-        Reservation myReservation = reservation;
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
         myReservation.setIdentifier("111");
-        verify(reservation).setIdentifier("111");
+
+        //Assert
+        Assertions.assertSame("111", myReservation.getIdentifier());
     }
 
 
     @Test
     void test_GetName(){
-        String time = "2022-09-10T10:30:00";
-        LocalDateTime resTime = LocalDateTime.parse(time);
-        Reservation myReservation = new Reservation("1234", resTime, "Alex", 5);
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
+
+        //Assert
         Assertions.assertSame("Alex", myReservation.getName());
     }
 
 
     @Test
     void test_SetName(){
-        Reservation myReservation = reservation;
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
         myReservation.setName("Tudor");
-        verify(reservation).setName("Tudor");
+
+        //Assert
+        Assertions.assertSame("Tudor", myReservation.getName());
     }
 
 
     @Test
     void test_GetDate(){
-        String time = "2022-09-10T10:30:00";
-        LocalDateTime resTime = LocalDateTime.parse(time);
-        Reservation myReservation = new Reservation("1234", resTime, "Alex", 5);
-        Assertions.assertSame(resTime, myReservation.getDate());
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
+
+        //Assert
+        Assertions.assertSame(time, myReservation.getDate());
     }
 
 
     @Test
     void test_SetDate(){
-        Reservation myReservation = reservation;
-        String test_time = "2022-09-11T10:30:00";
-        LocalDateTime resTest_Time = LocalDateTime.parse(test_time);
-        myReservation.setDate(resTest_Time);
-        verify(reservation).setDate(resTest_Time);
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        LocalDateTime test_time = LocalDateTime.of(2022, 9, 11, 10, 30, 9);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
+        myReservation.setDate(test_time);
+
+        //Assert
+        Assertions.assertSame(test_time, myReservation.getDate());
     }
 
 
     @Test
     void test_GetCapacity(){
-        String time = "2022-09-10T10:30:00";
-        LocalDateTime resTime = LocalDateTime.parse(time);
-        Reservation myReservation = new Reservation("1234", resTime, "Alex", 5);
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
+
+        //Assert
         Assertions.assertEquals(5, myReservation.getCapacity());
     }
 
 
     @Test
     void test_SetCapacity(){
-        Reservation myReservation = reservation;
-        myReservation.setCapacity(3);
-        verify(reservation).setCapacity(3);
+        //Arrange
+        LocalDateTime time = LocalDateTime.of(2022, 9, 10, 10, 30, 0);
+        Reservation myReservation = new Reservation("1234", time, "Alex", 5);
+
+        //Act
+        myReservation.setCapacity(4);
+
+        //Assert
+        Assertions.assertEquals(4, myReservation.getCapacity());
     }
-    
+
 }
