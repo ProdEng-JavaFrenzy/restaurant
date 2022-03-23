@@ -2,53 +2,77 @@ package com.javafrenzy.restaurant.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 public class TableTest {
-    @Mock
-    Table table = null;
-
-    @Test
-    void test_SetId(){
-        Table myTable = table;
-        myTable.setId("111");
-        verify(table).setId("111");
-    }
 
     @Test
     void test_GetId(){
+        //Arrange
         Table myTable = new Table((short)3, (short)1);
+
+        //Act
+
+        //Assert
+        Assertions.assertNull(myTable.getId());
+    }
+
+    @Test
+    void test_SetId(){
+        //Arrange
+        Table myTable = new Table((short)3, (short)1);
+
+        //Act
         myTable.setId("111");
+
+        //Assert
         Assertions.assertSame("111", myTable.getId());
     }
 
     @Test
     void test_GetCapacity(){
-        Table myTable = new Table((short)6, (short)1);
-        Assertions.assertEquals((short)6, myTable.getCapacity());
+        //Arrange
+        Table myTable = new Table((short)3, (short)1);
+
+        //Act
+
+        //Assert
+        Assertions.assertEquals((short)3, myTable.getCapacity());
     }
 
     @Test
     void test_SetCapacity(){
-        Table myTable = table;
+        //Arrange
+        Table myTable = new Table((short)3, (short)1);
+
+        //Act
         myTable.setCapacity((short)4);
-        verify(table).setCapacity((short)4);
+
+        //Assert
+        Assertions.assertEquals((short)4, myTable.getCapacity());
     }
 
     @Test
     void test_GetFloor(){
-        Table myTable = new Table((short)6, (short)1);
+        //Arrange
+        Table myTable = new Table((short)3, (short)1);
+
+        //Act
+
+        //Assert
         Assertions.assertEquals((short)1, myTable.getFloor());
     }
 
     @Test
     void test_SetFloor(){
-        Table myTable = table;
+        //Arrange
+        Table myTable = new Table((short)3, (short)1);
+
+        //Act
         myTable.setFloor((short)0);
-        verify(table).setFloor((short)0);
+
+        //Assert
+        Assertions.assertEquals((short)0, myTable.getFloor());
     }
 }
