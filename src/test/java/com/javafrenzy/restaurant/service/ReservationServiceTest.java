@@ -1,27 +1,16 @@
 package com.javafrenzy.restaurant.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javafrenzy.restaurant.exception.ReservationNotFoundException;
 import com.javafrenzy.restaurant.model.Reservation;
 import com.javafrenzy.restaurant.repository.ReservationRepository;
-import com.javafrenzy.restaurant.service.ReservationService;
 import com.javafrenzy.restaurant.utils.GenerateIdentifier;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.http.MediaType;
 
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -41,13 +30,12 @@ public class ReservationServiceTest {
     @InjectMocks
     ReservationService reservationService = new ReservationService();
 
-
     @Test
-    void test_returnsReservations(){
+    void test_returnsReservations() {
         String name = "Tudor";
         LocalDateTime date = LocalDateTime.of(2022, 8, 1, 9, 30);
         int capacity = 0;
-        Reservation reservation =new Reservation();
+        Reservation reservation = new Reservation();
         reservation.setName(name);
         reservation.setCapacity(capacity);
         reservation.setDate(date);
@@ -57,27 +45,26 @@ public class ReservationServiceTest {
         when(reservationRepository.findAll()).thenReturn(reservations);
 
         Assertions.assertEquals("Tudor", reservations.get(0).getName());
-        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30),reservations.get(0).getDate());
+        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30), reservations.get(0).getDate());
         Assertions.assertEquals(0, reservations.get(0).getCapacity());
 
     }
 
     @Test
-    void test_addReservationWhenNameNull_throwsReservationNotFoundException_whenNameNull(){
+    void test_addReservationWhenNameNull_throwsReservationNotFoundException_whenNameNull() {
         String name = null;
         LocalDateTime date = LocalDateTime.of(2022, 8, 1, 9, 30);
         int capacity = 0;
-        Reservation reservation =new Reservation();
+        Reservation reservation = new Reservation();
         reservation.setName(name);
         reservation.setCapacity(capacity);
         reservation.setDate(date);
-
 
         when(reservationRepository.findByName(name)).thenReturn(null);
 
         try {
             // Act
-            Reservation reservation1 = reservationService.addReservation(reservation);
+            reservationService.addReservation(reservation);
         } catch (Exception ex) {
             // Assert
             Assertions.assertEquals(ex.getClass(), ReservationNotFoundException.class);
@@ -87,57 +74,53 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void test_addReservationFromName_returnsReservationWithName(){
+    void test_addReservationFromName_returnsReservationWithName() {
         String name = "java";
         LocalDateTime date = LocalDateTime.of(2022, 8, 1, 9, 30);
         int capacity = 0;
-        Reservation reservation =new Reservation();
+        Reservation reservation = new Reservation();
         reservation.setName(name);
         reservation.setCapacity(capacity);
         reservation.setDate(date);
-
 
         when(reservationRepository.findByName(name)).thenReturn(Optional.empty());
         when(generateIdentifier.getIdentifier()).thenReturn("TESTTES");
         when(reservationRepository.save(any())).thenReturn(reservation);
 
-
         Reservation reservation1 = reservationService.addReservation(reservation);
         Assertions.assertEquals("java", reservation1.getName());
-        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30),reservation1.getDate());
+        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30), reservation1.getDate());
         Assertions.assertEquals(0, reservation1.getCapacity());
 
     }
 
     @Test
-    void test_checkReservationWithName(){
+    void test_checkReservationWithName() {
         String name = "test";
         LocalDateTime date = LocalDateTime.of(2022, 8, 1, 9, 30);
         int capacity = 0;
-        Reservation reservation =new Reservation();
+        Reservation reservation = new Reservation();
         reservation.setName(name);
         reservation.setCapacity(capacity);
         reservation.setDate(date);
 
-
         when(reservationRepository.findByName(name)).thenReturn(Optional.of(reservation));
         Reservation reservation1 = reservationService.checkReservation(reservation.getName());
         Assertions.assertEquals("test", reservation1.getName());
-        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30),reservation1.getDate());
+        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30), reservation1.getDate());
         Assertions.assertEquals(0, reservation1.getCapacity());
 
     }
 
     @Test
-    void test_checkReservationWithName_throwsReservationNotFoundException_whenNameNull(){
+    void test_checkReservationWithName_throwsReservationNotFoundException_whenNameNull() {
         String name = null;
-
 
         when(reservationRepository.findByName(name)).thenReturn(null);
 
         try {
             // Act
-            Reservation reservation1 = reservationService.checkReservation(null);
+            reservationService.checkReservation(null);
         } catch (Exception ex) {
             // Assert
             Assertions.assertEquals(ex.getClass(), ReservationNotFoundException.class);
@@ -147,40 +130,38 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void test_updateReservationWithName(){
+    void test_updateReservationWithName() {
         String name = "test";
         LocalDateTime date = LocalDateTime.of(2022, 8, 1, 9, 30);
         int capacity = 0;
-        Reservation reservation =new Reservation();
+        Reservation reservation = new Reservation();
         reservation.setName(name);
         reservation.setCapacity(capacity);
         reservation.setDate(date);
-
 
         when(reservationRepository.findByName(name)).thenReturn(Optional.of(reservation));
         when(generateIdentifier.getIdentifier()).thenReturn("TESTTES");
         when(reservationRepository.save(any())).thenReturn(reservation);
 
-
         Reservation reservation1 = reservationService.updateReservation(reservation);
         Assertions.assertEquals("test", reservation1.getName());
-        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30),reservation1.getDate());
+        Assertions.assertEquals(LocalDateTime.of(2022, 8, 1, 9, 30), reservation1.getDate());
         Assertions.assertEquals(0, reservation1.getCapacity());
         verify(generateIdentifier).getIdentifier();
 
     }
 
     @Test
-    void test_updateReservationWithName_throwsReservationNotFoundException_whenNameNull(){
+    void test_updateReservationWithName_throwsReservationNotFoundException_whenNameNull() {
         String name = null;
-        Reservation reservation =new Reservation();
+        Reservation reservation = new Reservation();
         reservation.setName(name);
 
         when(reservationRepository.findByName(name)).thenReturn(null);
 
         try {
             // Act
-            Reservation reservation1 = reservationService.updateReservation(reservation);
+            reservationService.updateReservation(reservation);
         } catch (Exception ex) {
             // Assert
             Assertions.assertEquals(ex.getClass(), ReservationNotFoundException.class);
@@ -189,4 +170,3 @@ public class ReservationServiceTest {
     }
 
 }
-
