@@ -21,6 +21,8 @@ pipeline {
                        env.PATCH_VERSION = sh([script: 'git tag | sort --version-sort | tail -1 | cut -d . -f 3', returnStdout: true]).trim()
                        env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
                 }
+                sh "docker build -t tudoranita/restaurant-img:${env.IMAGE_TAG} ."
+                sh "docker push tudoranita/restaurant-img:${env.IMAGE_TAG}"
                 sh "git tag ${env.IMAGE_TAG}"
                 sh "git push https://$GITHUB_TOKEN@github.com/ProdEng-JavaFrenzy/restaurant.git ${env.IMAGE_TAG}"
               }
