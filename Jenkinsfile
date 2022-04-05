@@ -29,6 +29,7 @@ pipeline {
             steps{
             sh 'IMAGE_TAG=${env.IMAGE_TAG} docker-compose up -d restaurant'
             }
+        }
         stage('Run tests'){
                     steps{
                     sh './gradlew test'
