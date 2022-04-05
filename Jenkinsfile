@@ -22,7 +22,7 @@ pipeline {
                        env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
                 }
                 sh "git tag ${env.IMAGE_TAG}"
-                sh "git push https://$GITHUB_TOKEN@github.com/AnitaTudor/restaurant.git ${env.IMAGE_TAG}"
+                sh "git push https://$GITHUB_TOKEN@github.com/ProdEng-JavaFrenzy/restaurant.git ${env.IMAGE_TAG}"
               }
         }
     }
