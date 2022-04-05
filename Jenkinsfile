@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Run app'){
             steps{
-            sh "IMAGE_TAG=${env.IMAGE_TAG} docker-compose up -d hello"
+            sh "IMAGE_TAG=${env.IMAGE_TAG} docker-compose up -d restaurant"
             }
         }
         stage('Run tests'){
