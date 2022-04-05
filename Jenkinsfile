@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build & Test') {
             steps {
-                sh './gradlew clean build'
+                bat './gradlew clean build'
             }
         }
         stage('Tag image') {
@@ -18,7 +18,7 @@ pipeline {
                     MINOR_VERSION = sh([script: 'git tag | cut -d . -f 2', returnStdout: true]).trim()
                     PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()
                 }
-                sh "docker build -t tudoranita/restaurant-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
+                bat "docker build -t tudoranita/restaurant-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
               }
         }
     }
