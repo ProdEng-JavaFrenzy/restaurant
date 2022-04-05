@@ -25,5 +25,14 @@ pipeline {
                 sh "git push https://$GITHUB_TOKEN@github.com/ProdEng-JavaFrenzy/restaurant.git ${env.IMAGE_TAG}"
               }
         }
+        stage('Run app'){
+            steps{
+            sh 'IMAGE_TAG=${env.IMAGE_TAG} docker-compose up -d restaurant'
+            }
+        stage('Run tests'){
+                    steps{
+                    sh './gradlew test'
+                    }
+        }
     }
 }
